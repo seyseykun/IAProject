@@ -1,9 +1,36 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainApp {
 
 	public static void main(String[] args) throws Exception {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Bonjour, bienvenue dans notre programme. \n Combien de Villes voulez vous dans le graph ? (Integer) ");
+		Integer rep = scanner.nextInt();
+		Graph gg = new Graph();
+		while (rep > 0) {
+			gg.addVille();
+			rep --;
+		}
+		Astar a11 = new Astar(gg);
+		
+		Integer ii = a11.solve();
+		
+		System.out.println("\n A* vaut : " + ii);
+		
+		
+
+		
+		System.out.println("\n \n Hill Climbing \n");
+		
+		HillClimbing hh = new HillClimbing(gg);
+		
+		System.out.println(hh.getPathInit());
+		
+		System.out.println(hh.solve());
+		
+		
 		
 		
 		ArrayList<Vertex> lv = new ArrayList<>();
