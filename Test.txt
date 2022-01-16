@@ -1,0 +1,30 @@
+Ville v1 = new Ville(1);
+		Ville v2 = new Ville(2);
+		Ville v3 = new Ville(3);
+		Ville v4 = new Ville(4);
+		Ville v5 = new Ville(5);
+
+		v1.addNewVille(v2, 21);
+		v1.addNewVille(v3, 9);
+		v1.addNewVille(v4, 21);
+		v1.addNewVille(v5, 1);
+		
+		v2.addNewVille(v1, 21);
+		v2.addNewVille(v3, 4);
+		v2.addNewVille(v4, 8);
+		v2.addNewVille(v5, 20);
+		
+		v3.addNewVille(v1, 9);
+		v3.addNewVille(v2, 4);
+		v3.addNewVille(v4, 6);
+		v3.addNewVille(v5, 7);
+		
+		v4.addNewVille(v1, 21);
+		v4.addNewVille(v2, 8);
+		v4.addNewVille(v3, 6);
+		v4.addNewVille(v5, 11);
+		
+		v5.addNewVille(v1, 1);
+		v5.addNewVille(v2, 20);
+		v5.addNewVille(v3, 7);
+		v5.addNewVille(v4, 11);
