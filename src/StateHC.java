@@ -14,7 +14,7 @@ public class StateHC {
 	public Integer Cost() {
 		Integer cost = 0;
 		for (int i= 1; i < cycle.size(); i++) {
-			cycle.get(i).getActions().get(cycle.get(i+1)).getCost(); 
+			cycle.get(i).getActions().get(cycle.get(i+1)); 
 			cost += cost;
 		}
 		return cost;

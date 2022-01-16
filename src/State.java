@@ -5,24 +5,35 @@ import java.util.List;
 public class State {
 	private Vertex actualVille;
 	private ArrayList<Vertex> villesVisitees = new ArrayList<Vertex>();
+	private Integer distancevisitees = 0;
 	
 	public State (Vertex v) {
 		this.actualVille = v;
 		villesVisitees.add(v);
+		for(int i = 0 ; i<villesVisitees.size() - 1; i++) {
+			distancevisitees += villesVisitees.get(i).getActions().get(villesVisitees.get(i+1));
+		}
 	}
 	
 	public State (Vertex v, ArrayList<Vertex> villesVisitees) throws Exception {
 		if(villesVisitees.contains(v)) {
 			this.actualVille = v;
 			this.villesVisitees = villesVisitees;
+			for(int i = 0 ; i<villesVisitees.size() - 1; i++) {
+				distancevisitees += villesVisitees.get(i).getActions().get(villesVisitees.get(i+1));
+			}
 		}
 		else
 			throw new IllegalArgumentException();
 	}
 	
+	public State() {
+	}
+
 	public void changeState(Vertex v) {
 		this.actualVille = v;
 		this.villesVisitees.add(v);
+		distancevisitees += villesVisitees.get(villesVisitees.size() - 1).getActions().get(v);
 	}
 	
 	/*
@@ -47,12 +58,15 @@ public class State {
 	public Vertex getActualVille() {
 		return actualVille;
 	}
-	public void setActualVille(Vertex actualVille) {
-		this.actualVille = actualVille;
-	}
+	
 	public ArrayList<Vertex> getVillesVisitees() {
 		return villesVisitees;
 	}
+
+	public Integer getDistancevisitees() {
+		return distancevisitees;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {

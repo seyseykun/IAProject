@@ -10,7 +10,7 @@ public class Heuristic {
 	private ArrayList<Vertex> graph;
 	private Vertex v;
 	private ArrayList<Vertex> visitedCities = new ArrayList<>();
-	private ArrayList<Action> visitedEdges = new ArrayList<>();
+	private ArrayList<Integer> visitedEdges = new ArrayList<>();
 	
 	public Heuristic(ArrayList<Vertex> lV, Vertex v) {
 		this.graph = lV;
@@ -45,19 +45,19 @@ public class Heuristic {
 	*/
 	
 	
-	public Integer run() {
+	public Integer Prim() {
 		Integer h = 0;
 	
 		if (graph.size() > 0) {
 	        visitedCities.add(v);
 		}
 	    while (! visitedCities.containsAll(graph) ) {
-	       	Action nextMinimum = new Action(Integer.MAX_VALUE);
+	    	Integer nextMinimum = Integer.MAX_VALUE;
 	       	Vertex nextVille = v;
 	       	for (Vertex vi : graph) {
 	       		if(visitedCities.contains(vi)) {
-	       			Par<Vertex, Action> candidate = vi.nextMinimum(this);
-	                if (candidate.getB().getCost() < nextMinimum.getCost()) {
+	       			Par<Vertex, Integer> candidate = vi.nextMinimum(this);
+	                if (candidate.getB() < nextMinimum) {
 	                	nextMinimum = candidate.getB();
 	                    nextVille = candidate.getA();
 	               	}
@@ -65,11 +65,12 @@ public class Heuristic {
 	        }
 	       	visitedCities.add(nextVille);
 	       	visitedEdges.add(nextMinimum);
-	        h += nextMinimum.getCost();
+	        h += nextMinimum;
 	    }
 	    return h;
 	}
 	
+	/*
 	private boolean isDisconnected() {
 	    for (Vertex ville : graph) {
 	        if (!ville.isVisited()) {
@@ -79,13 +80,14 @@ public class Heuristic {
 	    return false;
 	}
 	//Return true if a ville in graph is not visited. 
-
+	*/
+	
 	public ArrayList<Vertex> getVisitedCities() {
 		return visitedCities;
 	}
 
 
-	public ArrayList<Action> getVisitedEdges() {
+	public ArrayList<Integer> getVisitedEdges() {
 		return visitedEdges;
 	}	
 	

@@ -6,16 +6,16 @@ import java.util.Map;
 
 public class Vertex {
 	private int nVille;
-	private Map<Vertex, Action> actions = new HashMap<>();
-	private boolean isVisited = false;
+	private Map<Vertex, Integer> actions = new HashMap<>();
+	//private boolean isVisited = false;
 	
 	public Vertex (int n) {
 		nVille = n;
 	}
 	
 	public void addNewVille(Vertex v, Integer cost) {
-		Action aa = new Action(cost);
-		Action put = actions.put(v, aa);
+		
+		Integer put = actions.put(v, cost);
 	}
 	
 
@@ -44,13 +44,13 @@ public class Vertex {
         boolean res = true;
         if (obj instanceof Vertex) {
             Vertex c1 = (Vertex)obj;
-            Iterator<Map.Entry<Vertex,Action>> it1 = actions.entrySet()
+            Iterator<Map.Entry<Vertex,Integer>> it1 = actions.entrySet()
                     .iterator();
-            Iterator<Map.Entry<Vertex,Action>> it2 = c1.getActions().entrySet()
+            Iterator<Map.Entry<Vertex,Integer>> it2 = c1.getActions().entrySet()
                     .iterator();
                 while (it1.hasNext()) {
-                    Map.Entry<Vertex,Action> pair1 = it1.next();
-                    Map.Entry<Vertex,Action> pair2 = it2.next();
+                    Map.Entry<Vertex,Integer> pair1 = it1.next();
+                    Map.Entry<Vertex,Integer> pair2 = it2.next();
                     res = (pair1.getKey() == pair2.getKey()) & (pair1.getValue() == pair2.getValue());
                     if (!res) {
                         return res;
@@ -63,7 +63,7 @@ public class Vertex {
         }
     }
 	
-	
+	/*
 	public boolean isVisited() {
 		return isVisited;
 	}
@@ -72,7 +72,7 @@ public class Vertex {
 	public void setVisited(boolean isVisited) {
 		this.isVisited = isVisited;
 	}
-	
+	*/
 	
 	
 	/*
@@ -99,23 +99,23 @@ public class Vertex {
 	*/
 	
 	
-	public Par<Vertex, Action> nextMinimum(Heuristic h) {
-	    Action nextMinimum = new Action(Integer.MAX_VALUE);
+	public Par<Vertex, Integer> nextMinimum(Heuristic h) {
+	    Integer nextMinimum = Integer.MAX_VALUE;
 	    Vertex nextVille = this;
-	    Iterator<Map.Entry<Vertex,Action>> it = actions.entrySet()
+	    Iterator<Map.Entry<Vertex,Integer>> it = actions.entrySet()
 	        .iterator();
 	    while (it.hasNext()) {
-	        Map.Entry<Vertex,Action> pair = it.next();
+	        Map.Entry<Vertex,Integer> pair = it.next();
 	        if (!h.getVisitedCities().contains(pair.getKey())) {
 	            if (!h.getVisitedEdges().contains(pair.getValue())) {    //On a un problème car si 2 edges ont la même valeur, les deux vont être dans VisitedEdges
-	                if (pair.getValue().getCost() < nextMinimum.getCost()) {
+	                if (pair.getValue() < nextMinimum) {
 	                    nextMinimum = pair.getValue();
 	                    nextVille = pair.getKey();
 	                }
 	            }
 	        }
 	    }
-	    Par<Vertex, Action> res = new Par<Vertex, Action>(nextVille, nextMinimum);
+	    Par<Vertex, Integer> res = new Par<Vertex, Integer>(nextVille, nextMinimum);
 	    return res;
 	}
 	//Return 
@@ -126,18 +126,18 @@ public class Vertex {
 	@Override
 	public String toString() {
 		String s = "Ville n°: " + this.getnVille() + "\nPotential actions: [";
-		Iterator<Map.Entry<Vertex,Action>> it = actions.entrySet()
+		Iterator<Map.Entry<Vertex,Integer>> it = actions.entrySet()
 		        .iterator();
 		    while (it.hasNext()) {
-		        Map.Entry<Vertex,Action> pair = it.next();
-		        s += "\nmove to ville " + pair.getKey().getnVille() + " ; " + pair.getValue().getCost() + "km";
+		        Map.Entry<Vertex,Integer> pair = it.next();
+		        s += "\nmove to ville " + pair.getKey().getnVille() + " ; " + pair.getValue() + "km";
 		    }
 		s += " ]";
 		return s;
 	}
 		
 	
-	public Map<Vertex, Action> getActions() {
+	public Map<Vertex, Integer> getActions() {
 		return actions;
 	}
 	

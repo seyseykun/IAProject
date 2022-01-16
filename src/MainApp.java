@@ -43,33 +43,17 @@ public class MainApp {
         v5.addNewVille(v4, 11);
         lv.add(v5);
         
+        
         Graph g = new Graph(lv);
-		
-		//System.out.println(g.getSommet());
-		
-		//System.out.println("\n" + g.getlVille());
-		
-
-		//Heuristic h = new Heuristic(g.getlVille(), g.getSommet());
-		
-		//h.run();
-		
-        System.out.println(v1.toString());
 		
 		Astar a1 = new Astar(g);
 		
 		Integer i = a1.solve();
 		
-		System.out.println("\n" + i);
+		System.out.println("\n A* vaut : " + i);
 		
 		
-		//List<Ville> l1 = new ArrayList<>();
-		//l1.add(v1);
-		
-		//State s1 = new State(v1, l1);
-		
-		//System.out.println("\n" + g.lPotentialVille(s1));
-		
+
 		
 		System.out.println("\n \n Hill Climbing \n");
 		
@@ -78,6 +62,7 @@ public class MainApp {
 		System.out.println(h.getPathInit());
 		
 		System.out.println(h.solve());
+		
 		
 	}	
 }

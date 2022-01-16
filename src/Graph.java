@@ -20,6 +20,12 @@ public class Graph {
 	}
 	//Il faut que les villes soient construites correctement (faire attention aux voisins de chaque ville)
 	
+	public Graph(Graph g) {
+		this.lVille = new ArrayList<>(g.getlVille());
+		this.sommet = lVille.get(0);
+		nVille = lVille.size();
+	}
+	
 	public void addVille () {
 		nVille ++;
 		Vertex ville = new Vertex(nVille);
@@ -33,19 +39,24 @@ public class Graph {
 		lVille.add(ville);
 	}
 	
+	/**
+	 * Method that returns the list of non-visited cities that you can visit from state s
+	 * @param s
+	 * @return
+	 */
 	public ArrayList<Vertex> lPotentialVille(State s){
-		ArrayList<Vertex> l = new ArrayList<Vertex>();
+		ArrayList<Vertex> lPotentialVille = new ArrayList<Vertex>();
 		for (int i = 0; i<lVille.size(); i++) {
-			ArrayList<Vertex> ll = s.getVillesVisitees();
+			ArrayList<Vertex> ll = new ArrayList<>(s.getVillesVisitees());
 			Vertex vv = lVille.get(i);
-			if (!(ll.contains(vv))){
-				l.add(vv);
+			if (!(ll.contains(vv))){ 
+				lPotentialVille.add(vv);
 			}
 		}
-		return l;
+		return lPotentialVille;
 	}
 	
-	public ArrayList<State> lPotentialState(State s){
+	public ArrayList<State> ACTIONS(State s){
 		ArrayList<State> l = new ArrayList<State>();
 		for (int i = 0; i<lVille.size(); i++) {
 			if (!(s.getVillesVisitees().contains(lVille.get(i)))) {
@@ -57,12 +68,12 @@ public class Graph {
 		return l;
 	}
 	
-	public Integer cost (State sInitial, State sFinal) throws Exception{
+	public Integer RESULT(State sInitial, State sFinal) throws Exception{
 		Integer cost = 0;
 		if (sInitial.isAction(sFinal) == true) {
 			Vertex vInit = sInitial.getActualVille();
 			Vertex vFin = sFinal.getActualVille();
-			cost = vInit.getActions().get(vFin).getCost();
+			cost = vInit.getActions().get(vFin);
 			return cost;
 		}
 		else {

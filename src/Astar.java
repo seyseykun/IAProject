@@ -17,64 +17,78 @@ public class Astar {
 		this.racine = g.getSommet();
 		this.frontier = new Frontier();
 		Heuristic h = new Heuristic(g.getlVille(), racine);
-		this.frontier.push(this.racine, h.run());
+		//this.frontier.push(this.racine, h.Prim());
 		this.explored = new ArrayList<>();
-		this.g = g;
+		this.g = new Graph(g);
 	}
 	
 	public Integer solve() throws Exception {
 		
-		ArrayList<Integer> cycleHamiltonien = new ArrayList<>();
+		ArrayList<Vertex> cycleHamiltonien = new ArrayList<>();
 		Integer distanceparcourue = 0;
 		Vertex villeprec = racine;
 		
 		explored.add(racine);
-		cycleHamiltonien.add(racine.getnVille());
-		frontier.getFrontier().remove(racine);
+		cycleHamiltonien.add(racine);
+		//frontier.getFrontier().remove(racine);
 		
-		State s = new State(racine, explored);
+		State s = new State(racine, cycleHamiltonien);
 		
 		ArrayList<Vertex> l = g.lPotentialVille(s);
 		ArrayList<Vertex> lh = new ArrayList<>(l);
 		lh.add(racine);
 	
 		for (Vertex v : l) {
+			ArrayList<Vertex> explos = new ArrayList<>(cycleHamiltonien);
+			explos.add(v);
+			State sv = new State(v, explos);
 			Heuristic hv = new Heuristic(lh, v);
-			frontier.push(v, v.getActions().get(this.racine).getCost() + hv.run()); //f + distance de minv à v + heuristic de v	
+			frontier.push(sv, v.getActions().get(this.racine) + hv.Prim()); //f + distance de minv à v + heuristic de v	
 		}
 		
-		while (!explored.containsAll(g.getlVille())) {
+		while (!cycleHamiltonien.containsAll(g.getlVille())) {
+			//On choisit la ville la plus proche dans la frontière
 			Integer i = Integer.MAX_VALUE;
 			Vertex minv = new Vertex(i);
-			Iterator<Map.Entry<Vertex, Integer>> it = frontier.getFrontier().entrySet()
+			State mins = new State();
+			Iterator<Map.Entry<State, Integer>> it = frontier.getFrontier().entrySet()
 			        .iterator();
 			while (it.hasNext()) {
-				Map.Entry<Vertex, Integer> pair = it.next();
+				Map.Entry<State, Integer> pair = it.next();
 				if (pair.getValue() < i) {
 					i = pair.getValue();
-					minv = pair.getKey();
+					minv = pair.getKey().getActualVille();
+					mins = pair.getKey();
 				}
 			}
-			explored.add(minv);
-			cycleHamiltonien.add(minv.getnVille());
-			frontier.getFrontier().remove(minv);
-			distanceparcourue += villeprec.getActions().get(minv).getCost();
+			
+			//explored.add(minv);
+			cycleHamiltonien = new ArrayList<>(mins.getVillesVisitees());
+			//cycleHamiltonien.add(minv.getnVille());
+			frontier.getFrontier().remove(mins);
+			//frontier.cleanFrontier();
+			//distanceparcourue += villeprec.getActions().get(minv);
+			distanceparcourue = mins.getDistancevisitees();
 			villeprec = minv;
 			
-			s = new State(minv, explored);
+			s = new State(minv, cycleHamiltonien);
 			
 			l = g.lPotentialVille(s);
 			ArrayList<Vertex> lh1 = new ArrayList<>(l);
 			lh1.add(racine);
-			lh1.add(minv);
+			//lh1.add(minv);
 		
 			for (Vertex v : l) {
+				ArrayList<Vertex> explos = new ArrayList<>(cycleHamiltonien);
+				explos.add(v);
+				State sv = new State(v, explos);
 				Heuristic hv = new Heuristic(lh1, v);
-				frontier.push(v, distanceparcourue + v.getActions().get(minv).getCost() + hv.run()); //f + distance de minv à v + heuristic de v	
+				frontier.push(sv, distanceparcourue + v.getActions().get(minv) + hv.Prim()); //f + distance de minv à v + heuristic de v	
 			}
 		}
 		System.out.println("Cycle hamiltonien :" + cycleHamiltonien);
-		return distanceparcourue + this.racine.getActions().get(explored.get(explored.size()-1)).getCost();
+		
+		return distanceparcourue + this.racine.getActions().get(cycleHamiltonien.get(cycleHamiltonien.size()-1));
 	}
 	//Factoriser la redondance du code
 	

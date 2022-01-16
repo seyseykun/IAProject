@@ -21,6 +21,10 @@ public class Path {
 		}
 	}
 	
+	public Path(Path p) {
+		this.villes =  new ArrayList<Vertex>(p.getVilles());
+	}
+	
 	public Path(ArrayList<Vertex> villes) {
 		this.villes =  new ArrayList<Vertex>(villes);
 		
@@ -35,7 +39,7 @@ public class Path {
 		Vertex a = villes.get(0);
 		for (int i= 1; i < villes.size(); i++) {
 			Vertex b = villes.get(i);
-			cost += b.getActions().get(a).getCost();
+			cost += b.getActions().get(a);
 			a = b;
 		}
 		return cost ;
