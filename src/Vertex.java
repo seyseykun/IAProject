@@ -7,7 +7,7 @@ import java.util.Map;
 public class Vertex {
 	private int nVille;
 	private Map<Vertex, Integer> actions = new HashMap<>();
-	//private boolean isVisited = false;
+
 	
 	public Vertex (int n) {
 		nVille = n;
@@ -19,26 +19,7 @@ public class Vertex {
 	}
 	
 
-	@Override
-	/*
-	public boolean equals(Object obj) {
-		if (obj instanceof Ville) {
-			Ville c1 = (Ville)obj;
-			Iterator<Map.Entry<Ville,Action>> it = actions.entrySet()
-			        .iterator();
-			    while (it.hasNext()) {
-			        Map.Entry<Ville,Action> pair = it.next();
-			        if () {
-			        	
-			        }
-			    }
-			return (nVille == c1.getnVille() & actions.equals(c1.getActions()));
-		}
-		else {
-			throw new ClassCastException();
-		}
-	}
-	*/
+
 	
 	public boolean equals(Object obj) {
         boolean res = true;
@@ -63,40 +44,7 @@ public class Vertex {
         }
     }
 	
-	/*
-	public boolean isVisited() {
-		return isVisited;
-	}
 
-	
-	public void setVisited(boolean isVisited) {
-		this.isVisited = isVisited;
-	}
-	*/
-	
-	
-	/*
-	public Par<Vertex, Action> nextMinimum() {
-	    Action nextMinimum = new Action(Integer.MAX_VALUE);
-	    Vertex nextVille = this;
-	    Iterator<Map.Entry<Vertex,Action>> it = actions.entrySet()
-	        .iterator();
-	    while (it.hasNext()) {
-	        Map.Entry<Vertex,Action> pair = it.next();
-	        if (!pair.getKey().isVisited()) {
-	            if (!pair.getValue().isIncluded()) {
-	                if (pair.getValue().getCost() < nextMinimum.getCost()) {
-	                    nextMinimum = pair.getValue();
-	                    nextVille = pair.getKey();
-	                }
-	            }
-	        }
-	    }
-	    Par<Vertex, Action> res = new Par<Vertex, Action>(nextVille, nextMinimum);
-	    return res;
-	}
-	//Return
-	*/
 	
 	
 	public Par<Vertex, Integer> nextMinimum(Heuristic h) {
@@ -118,21 +66,22 @@ public class Vertex {
 	    Par<Vertex, Integer> res = new Par<Vertex, Integer>(nextVille, nextMinimum);
 	    return res;
 	}
-	//Return 
+
 	
 
 	
 	
 	@Override
 	public String toString() {
-		String s = "Ville n°: " + this.getnVille() + "\nPotential actions: [";
+		String s = "Ville n°: " + this.getnVille() + "\nNeighbors: [";
 		Iterator<Map.Entry<Vertex,Integer>> it = actions.entrySet()
 		        .iterator();
 		    while (it.hasNext()) {
 		        Map.Entry<Vertex,Integer> pair = it.next();
-		        s += "\nmove to ville " + pair.getKey().getnVille() + " ; " + pair.getValue() + "km";
+		        s += pair.getKey().getnVille() + " à " + pair.getValue() + "km ; ";
 		    }
-		s += " ]";
+		    
+		s += " ] \n";
 		return s;
 	}
 		

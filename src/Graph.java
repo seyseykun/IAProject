@@ -18,7 +18,7 @@ public class Graph {
 		this.sommet = lVille.get(0);
 		nVille = lVille.size();
 	}
-	//Il faut que les villes soient construites correctement (faire attention aux voisins de chaque ville)
+	
 	
 	public Graph(Graph g) {
 		this.lVille = new ArrayList<>(g.getlVille());
@@ -39,11 +39,13 @@ public class Graph {
 		lVille.add(ville);
 	}
 	
+	
 	/**
 	 * Method that returns the list of non-visited cities that you can visit from state s
 	 * @param s
 	 * @return
 	 */
+	
 	public ArrayList<Vertex> lPotentialVille(State s){
 		ArrayList<Vertex> lPotentialVille = new ArrayList<Vertex>();
 		for (int i = 0; i<lVille.size(); i++) {
@@ -56,18 +58,31 @@ public class Graph {
 		return lPotentialVille;
 	}
 	
+	
+	
+	
+	
 	public ArrayList<State> ACTIONS(State s){
-		ArrayList<State> l = new ArrayList<State>();
+		ArrayList<State> lPotentialState = new ArrayList<State>();
 		for (int i = 0; i<lVille.size(); i++) {
 			if (!(s.getVillesVisitees().contains(lVille.get(i)))) {
 				State ss = s;
 				ss.changeState(lVille.get(i));
-				l.add(ss);
+				lPotentialState.add(ss);
 			}
 		}
-		return l;
+		return lPotentialState;
 	}
 	
+	public ArrayList<Vertex> StatesToVertices(ArrayList<State> ls){
+		ArrayList<Vertex> lv = new ArrayList<Vertex>();
+		for (int i = 0; i<ls.size(); i++) {
+			lv.add(ls.get(i).getActualVille());
+		}
+		return lv;
+	}
+	
+	/*
 	public Integer RESULT(State sInitial, State sFinal) throws Exception{
 		Integer cost = 0;
 		if (sInitial.isAction(sFinal) == true) {
@@ -80,33 +95,24 @@ public class Graph {
 			throw new IllegalArgumentException();
 		}
 		
-	}
-	
-	public ArrayList<Vertex> villeNonVisetees(State s){
-		ArrayList<Vertex> res = new ArrayList<Vertex>();
-		for (int i = 0; i<lVille.size(); i++) {
-			if (!(s.getVillesVisitees().contains(lVille.get(i)))) {
-				res.add(lVille.get(i));
-			}
-		}
-		return res;
-	}
+	}*/
 
+	
+	
+	
+	
+	
+	//GETTERS AND SETTERS
+	
 	public ArrayList<Vertex> getlVille() {
 		return lVille;
 	}
 
-	public void setlVille(ArrayList<Vertex> lVille) {
-		this.lVille = lVille;
-	}
 
 	public Vertex getSommet() {
 		return sommet;
 	}
 
-	public void setSommet(Vertex sommet) {
-		this.sommet = sommet;
-	}
 
 	
 	

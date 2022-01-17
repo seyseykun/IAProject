@@ -26,14 +26,14 @@ public class HillClimbing {
 		this.pathInit = p.createCycle(graph);
 	}
 	
-	
+
 	public Integer solve() throws Exception {
 		Astar a = new Astar(this.graph);
 		Integer sol = a.solve();
-		System.out.println("La solution A* : " + sol);
+		System.out.println("Value of A* : " + sol);
 		
 		System.out.println("Cost of initial Path: " + this.pathInit.costOfPath());
-		
+		double taux = this.pathInit.costOfPath();
 		if (this.pathInit.costOfPath() <= sol) {
 			return this.pathInit.costOfPath();
 		}
@@ -41,8 +41,13 @@ public class HillClimbing {
 			while ( (this.pathInit.costOfPath() > sol) && (this.bestPath().costOfPath() < pathInit.costOfPath()) ){
 				
 				this.pathInit = new Path(this.bestPath());
-				System.out.println("Nouveau path: " + this.pathInit.costOfPath());
+				System.out.println("New path: " + this.pathInit.costOfPath());
 			}
+			Integer écart = pathInit.costOfPath() - sol;
+			System.out.println("Ecart à l'optimum: " + écart);
+			if (pathInit.costOfPath() != taux) {taux = (-pathInit.costOfPath()/taux)*100 + 100;}
+			else {taux = 0;}
+			System.out.println("Taux d'amélioration par rapport à la solution initiale: " + taux + "%");
 			return pathInit.costOfPath();
 		}
 	}

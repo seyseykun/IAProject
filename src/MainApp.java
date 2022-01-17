@@ -6,32 +6,88 @@ public class MainApp {
 
 	public static void main(String[] args) throws Exception {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Bonjour, bienvenue dans notre programme. \n Combien de Villes voulez vous dans le graph ? (Integer) ");
+		System.out.println("Bonjour, bienvenue dans notre programme. \n Voulez vous 1: rentrer les diatances des villes a la main ou 2: generer des distance aleatoirement ? (1 ou 2) ");
 		Integer rep = scanner.nextInt();
-		Graph gg = new Graph();
-		while (rep > 0) {
-			gg.addVille();
-			rep --;
-		}
-		Astar a11 = new Astar(gg);
-		
-		Integer ii = a11.solve();
-		
-		System.out.println("\n A* vaut : " + ii);
-		
-		
+		if (rep == 2) {
+			System.out.println(" \n Combien de Villes voulez vous dans le graph ? (Integer) ");
+			rep = scanner.nextInt();
+			Graph gg = new Graph();
+			for (int i = 0; i < rep-1; i++) {
+				gg.addVille();
+			}
+			
+			Astar a11 = new Astar(gg);
+			
+			long startTime = System.nanoTime();
+			Integer ii = a11.solve();
+			long endTime = System.nanoTime();
+			long durationAstar = (endTime - startTime); 
+			
+			System.out.println("Value of A*: " + ii);
+			
+			
 
+			
+			System.out.println("\n \n--- Hill Climbing --- \n");
+			
+			HillClimbing hh = new HillClimbing(gg);
+			
+			startTime = System.nanoTime();
+			System.out.println("Value of final path: " + hh.solve());
+			endTime = System.nanoTime();
+			long durationHC = (endTime - startTime);
+			
+			System.out.println("\n \nLe temps d'exécution de A* est de: " + durationAstar + " nanosecondes. \nLe temps d'exécution de Hill Climbing Search est de:" + durationHC + " nanosecondes.");
+			
+			
+		}
+		if (rep == 1) {
+			System.out.println(" \n Combien de Villes voulez vous dans le graph ? (Integer) ");
+			rep = scanner.nextInt();
+			int nVille = 1;
+			Vertex sommet = new Vertex(nVille);
+			ArrayList<Vertex> lv = new ArrayList<>();
+			lv.add(sommet);
+			for (int i = 0; i < rep-1; i++) {
+				nVille ++;
+				Vertex ville = new Vertex(nVille);
+				for (int j=0; j < lv.size(); j++) {
+					System.out.println(" \n Quelle est la distance entre la ville " + ville.getnVille() + " et la ville : " + lv.get(j).getnVille() + " ? (Integer) ");
+					Integer dist = scanner.nextInt();
+					lv.get(j).addNewVille(ville, dist);
+					ville.addNewVille(lv.get(j), dist);
+				}
+				lv.add(ville);
+			}
+			Graph g = new Graph(lv);
+			
+			Astar a1 = new Astar(g);
+			
+			long startTime = System.nanoTime();
+			Integer i = a1.solve();
+			long endTime = System.nanoTime();
+			long durationAstar = (endTime - startTime); 
+			
+			System.out.println("\nValue of A*: " + i);
+			
+			
+			
+			
+			System.out.println("\n \n--- Hill Climbing --- \n");
+			
+			HillClimbing h = new HillClimbing(g);
+			
+			startTime = System.nanoTime();
+			System.out.println("Value of final path: " + h.solve());
+			endTime = System.nanoTime();
+			long durationHC = (endTime - startTime);
+			
+			System.out.println("Le temps d'exécution de A* est :" + durationAstar + ". \n Le temps d'exécution de Hill Climbing Search est :" + durationHC);
+		}
 		
-		System.out.println("\n \n Hill Climbing \n");
+	
 		
-		HillClimbing hh = new HillClimbing(gg);
-		
-		System.out.println(hh.getPathInit());
-		
-		System.out.println(hh.solve());
-		
-		
-		
+		/*
 		
 		ArrayList<Vertex> lv = new ArrayList<>();
 		
@@ -80,7 +136,6 @@ public class MainApp {
 		System.out.println("\n A* vaut : " + i);
 		
 		
-
 		
 		System.out.println("\n \n Hill Climbing \n");
 		
@@ -90,6 +145,6 @@ public class MainApp {
 		
 		System.out.println(h.solve());
 		
-		
+		*/
 	}	
 }

@@ -20,8 +20,4 @@ public class Frontier {
 		return frontier;
 	}
 	
-	
-	public void cleanFrontier() {
-		this.frontier = new HashMap<State, Integer>();
-	}
 }
